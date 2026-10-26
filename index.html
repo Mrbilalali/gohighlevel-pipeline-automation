@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="data:," />
+    <title>GoHighLevel Pipeline Automation — Interactive Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #eef4ef;
+        --bg-soft: #f6faf6;
+        --surface: #ffffff;
+        --surface-2: #f2f7f2;
+        --ink: #14231b;
+        --ink-soft: #43564a;
+        --ink-faint: #71857a;
+        --accent: #0d6b4d;
+        --accent-dark: #084c36;
+        --accent-soft: #dcefe2;
+        --accent-mid: #bcdcc8;
+        --line: #d3e2d6;
+        --amber: #9a6a12;
+        --amber-bg: #fdf3d7;
+        --amber-line: #ecd28a;
+        --shadow: 0 10px 30px rgba(13, 80, 55, 0.10);
+        --shadow-sm: 0 3px 10px rgba(13, 80, 55, 0.08);
+        --radius-lg: 18px;
+        --radius-md: 12px;
+        --radius-sm: 8px;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Manrope", system-ui, -apple-system, sans-serif;
+        font-size: 16px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      h1, h2, h3 { font-family: "Sora", "Manrope", sans-serif; margin: 0; line-height: 1.2; }
+      p { margin: 0; }
+      a { color: var(--accent); }
+      .wrap { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+
+      /* ---------- Header ---------- */
+      header { padding: 40px 0 8px; }
+      .sim-banner {
+        display: flex; gap: 12px; align-items: flex-start;
+        background: var(--amber-bg);
+        border: 1.5px solid var(--amber-line);
+        border-radius: var(--radius-md);
+        padding: 13px 16px;
+        margin-bottom: 26px;
+      }
+      .sim-banner .dot {
+        flex: none; width: 10px; height: 10px; border-radius: 50%;
+        background: var(--amber); margin-top: 6px;
+      }
+      .sim-banner strong { color: var(--amber); font-weight: 800; }
+      .sim-banner p { font-size: 0.94rem; color: #5d4a12; }
+      .eyebrow {
+        font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em;
+        text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+      }
+      h1 { font-size: clamp(1.9rem, 4.6vw, 2.9rem); font-weight: 800; letter-spacing: -0.01em; max-width: 20ch; }
+      h1 .hl { color: var(--accent); }
+      .lede { margin-top: 14px; font-size: 1.08rem; color: var(--ink-soft); max-width: 62ch; }
+      .proof-points {
+        display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;
+      }
+      .proof-points span {
+        background: var(--surface); border: 1px solid var(--line);
+        border-radius: 999px; padding: 7px 14px;
+        font-size: 0.88rem; font-weight: 700; color: var(--accent-dark);
+        box-shadow: var(--shadow-sm);
+      }
+
+      /* ---------- Controls ---------- */
+      .controls {
+        margin-top: 30px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+        padding: 22px;
+      }
+      .step-label {
+        font-size: 0.78rem; font-weight: 800; letter-spacing: 0.12em;
+        text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px;
+      }
+      .sources { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .source-btn {
+        appearance: none; text-align: left; cursor: pointer;
+        background: var(--surface-2);
+        border: 2px solid var(--line);
+        border-radius: var(--radius-md);
+        padding: 15px 16px;
+        font-family: inherit; color: var(--ink);
+        transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+      }
+      .source-btn:hover { border-color: var(--accent-mid); }
+      .source-btn:focus-visible { outline: 3px solid var(--accent-mid); outline-offset: 2px; }
+      .source-btn.selected { border-color: var(--accent); background: var(--accent-soft); }
+      .source-btn .src-icon {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 36px; height: 36px; border-radius: 9px;
+        background: var(--surface); border: 1px solid var(--line);
+        color: var(--accent); margin-bottom: 9px;
+      }
+      .source-btn.selected .src-icon { background: var(--accent); color: #fff; border-color: var(--accent); }
+      .source-btn .src-name { display: block; font-weight: 800; font-size: 1rem; }
+      .source-btn .src-desc { display: block; font-size: 0.85rem; color: var(--ink-soft); margin-top: 3px; line-height: 1.45; }
+      .run-row {
+        display: flex; flex-wrap: wrap; align-items: center; gap: 16px;
+        margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--line);
+      }
+      .run-btn {
+        appearance: none; cursor: pointer; border: none;
+        background: var(--accent); color: #fff;
+        font-family: "Sora", sans-serif; font-weight: 700; font-size: 1.05rem;
+        padding: 15px 30px; border-radius: 999px;
+        box-shadow: 0 8px 20px rgba(13, 107, 77, 0.30);
+        transition: background 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
+      }
+      .run-btn:hover:not(:disabled) { background: var(--accent-dark); transform: translateY(-1px); }
+      .run-btn:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+      .run-btn:focus-visible { outline: 3px solid var(--accent-mid); outline-offset: 3px; }
+      .timer-box { display: flex; align-items: baseline; gap: 8px; }
+      .timer-box .t-label { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+      .timer-box .t-value { font-family: "IBM Plex Mono", monospace; font-size: 1.5rem; font-weight: 600; color: var(--accent-dark); min-width: 4.2ch; }
+      .run-status { font-size: 0.92rem; color: var(--ink-soft); font-weight: 600; }
+      .run-status .live-dot {
+        display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+        background: var(--accent); margin-right: 6px; vertical-align: 1px;
+      }
+      .run-status.running .live-dot { animation: blink 1s ease-in-out infinite; }
+      @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+      /* ---------- Pipeline board ---------- */
+      .board-section { margin-top: 30px; }
+      .board-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 14px; }
+      .board-head h2 { font-size: 1.35rem; font-weight: 700; }
+      .board-head p { font-size: 0.92rem; color: var(--ink-soft); }
+      .board {
+        display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+      }
+      .stage {
+        background: var(--surface);
+        border: 1.5px solid var(--line);
+        border-radius: var(--radius-lg);
+        padding: 14px;
+        min-height: 218px;
+        display: flex; flex-direction: column;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+      }
+      .stage.active {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow);
+        background: #fbfefb;
+      }
+      .stage.done { border-color: var(--accent-mid); background: var(--surface-2); }
+      .stage-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+      .stage-num {
+        flex: none; width: 24px; height: 24px; border-radius: 50%;
+        background: var(--surface-2); border: 1.5px solid var(--line);
+        color: var(--ink-faint); font-size: 0.78rem; font-weight: 800;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-family: "IBM Plex Mono", monospace;
+      }
+      .stage.active .stage-num { background: var(--accent); border-color: var(--accent); color: #fff; }
+      .stage.done .stage-num { background: var(--accent-soft); border-color: var(--accent-mid); color: var(--accent-dark); }
+      .stage-name { font-family: "Sora", sans-serif; font-weight: 700; font-size: 0.94rem; line-height: 1.25; }
+      .stage-sub { font-size: 0.78rem; color: var(--ink-faint); margin: 0 0 12px 32px; line-height: 1.4; }
+      .stage-slot { flex: 1; display: flex; }
+      .stage-empty {
+        flex: 1; border: 1.5px dashed var(--line); border-radius: var(--radius-md);
+        display: flex; align-items: center; justify-content: center;
+        color: var(--ink-faint); font-size: 0.82rem; font-weight: 600; text-align: center; padding: 10px;
+      }
+      .stage.done .stage-empty, .stage.active .stage-empty { display: none; }
+
+      .lead-card {
+        flex: 1; width: 100%;
+        background: linear-gradient(180deg, #ffffff, #f4faf4);
+        border: 1.5px solid var(--accent);
+        border-radius: var(--radius-md);
+        padding: 13px 14px;
+        box-shadow: var(--shadow-sm);
+      }
+      .lead-card.arrive { animation: arrive 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+      @keyframes arrive {
+        0% { transform: translateY(-14px) scale(0.96); opacity: 0.2; }
+        100% { transform: translateY(0) scale(1); opacity: 1; }
+      }
+      .lead-top { display: flex; align-items: center; gap: 10px; }
+      .avatar {
+        flex: none; width: 38px; height: 38px; border-radius: 50%;
+        background: var(--accent); color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-family: "Sora", sans-serif; font-weight: 700; font-size: 0.95rem;
+      }
+      .lead-name { font-weight: 800; font-size: 0.98rem; line-height: 1.2; }
+      .lead-meta { font-size: 0.8rem; color: var(--ink-soft); font-family: "IBM Plex Mono", monospace; }
+      .lead-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+      .lead-tags span {
+        font-size: 0.72rem; font-weight: 700; padding: 3px 9px; border-radius: 999px;
+        background: var(--accent-soft); color: var(--accent-dark);
+      }
+      .lead-tags span.grey { background: var(--surface-2); color: var(--ink-soft); border: 1px solid var(--line); }
+      .lead-need { margin-top: 10px; font-size: 0.83rem; color: var(--ink-soft); line-height: 1.45; }
+      .lead-need strong { color: var(--ink); }
+      .lead-appt {
+        display: none; margin-top: 10px; padding: 8px 10px;
+        background: var(--accent-soft); border-radius: var(--radius-sm);
+        font-size: 0.82rem; font-weight: 700; color: var(--accent-dark); line-height: 1.4;
+      }
+      .lead-card.booked .lead-appt { display: block; }
+
+      /* ---------- Log + phone ---------- */
+      .duo { display: grid; grid-template-columns: 1.55fr 1fr; gap: 16px; margin-top: 30px; align-items: start; }
+      .panel {
+        background: var(--surface); border: 1px solid var(--line);
+        border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+        overflow: hidden;
+      }
+      .panel-head {
+        display: flex; align-items: center; justify-content: space-between; gap: 10px;
+        padding: 14px 18px; border-bottom: 1px solid var(--line); background: var(--surface-2);
+      }
+      .panel-head h3 { font-size: 1rem; font-weight: 700; }
+      .panel-head .tag {
+        font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+        background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-line);
+        padding: 4px 9px; border-radius: 999px; white-space: nowrap;
+      }
+      .panel-head .tag.green { background: var(--accent-soft); color: var(--accent-dark); border-color: var(--accent-mid); }
+      .log {
+        padding: 14px 18px; height: 380px; overflow-y: auto;
+        display: flex; flex-direction: column; gap: 0;
+      }
+      .log-idle { color: var(--ink-faint); font-size: 0.92rem; padding: 8px 0; }
+      .log-entry {
+        display: flex; gap: 12px; padding: 9px 0;
+        border-bottom: 1px dashed var(--line);
+        animation: fadeSlide 0.4s ease both;
+      }
+      .log-entry:last-child { border-bottom: none; }
+      @keyframes fadeSlide { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+      .log-time {
+        flex: none; font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; font-weight: 600;
+        color: var(--accent); background: var(--accent-soft);
+        border-radius: 6px; padding: 2px 7px; height: fit-content; margin-top: 1px;
+      }
+      .log-body { font-size: 0.9rem; line-height: 1.45; }
+      .log-body strong { display: block; font-size: 0.92rem; }
+      .log-body span { color: var(--ink-soft); }
+      .log-entry.stage-entry .log-time { background: var(--accent); color: #fff; }
+
+      .phone-wrap { padding: 18px; display: flex; justify-content: center; background: var(--bg-soft); }
+      .phone {
+        width: 100%; max-width: 300px;
+        background: #101812; border-radius: 30px; padding: 10px;
+        box-shadow: 0 16px 34px rgba(10, 40, 26, 0.25);
+      }
+      .phone-screen {
+        background: #f4f7f1; border-radius: 22px; overflow: hidden;
+        display: flex; flex-direction: column; height: 420px;
+      }
+      .phone-head {
+        background: var(--accent-dark); color: #fff; padding: 12px 14px 10px;
+        font-size: 0.82rem;
+      }
+      .phone-head .ph-name { font-weight: 800; font-family: "Sora", sans-serif; font-size: 0.9rem; }
+      .phone-head .ph-sub { opacity: 0.85; font-size: 0.74rem; font-family: "IBM Plex Mono", monospace; }
+      .phone-msgs { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+      .phone-idle { color: #7b8a80; font-size: 0.82rem; text-align: center; margin-top: 24px; padding: 0 12px; line-height: 1.5; }
+      .bubble {
+        max-width: 85%; padding: 9px 12px; border-radius: 14px;
+        font-size: 0.83rem; line-height: 1.45;
+        animation: fadeSlide 0.35s ease both;
+      }
+      .bubble.out { align-self: flex-start; background: #fff; border: 1px solid #dfe8df; border-bottom-left-radius: 4px; color: #22352a; }
+      .bubble.in { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+      .bubble .b-who { display: block; font-size: 0.66rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.7; margin-bottom: 2px; }
+      .bubble.sys {
+        align-self: center; background: #e6efe6; color: #48614f;
+        font-size: 0.72rem; font-weight: 700; text-align: center; border-radius: 999px; padding: 5px 12px;
+      }
+      .phone-note { padding: 10px 14px; font-size: 0.72rem; color: #71857a; text-align: center; background: #eef3ec; }
+
+      /* ---------- Outcome ---------- */
+      .outcome {
+        margin-top: 30px;
+        background: var(--accent-dark);
+        color: #eaf5ee;
+        border-radius: var(--radius-lg);
+        padding: 28px;
+        box-shadow: var(--shadow);
+        display: none;
+      }
+      .outcome.show { display: block; animation: fadeSlide 0.5s ease both; }
+      .outcome .oc-label {
+        display: inline-block; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em;
+        text-transform: uppercase; background: rgba(255,255,255,0.14);
+        padding: 5px 11px; border-radius: 999px; margin-bottom: 14px;
+      }
+      .outcome h2 { font-size: clamp(1.4rem, 3.4vw, 1.9rem); font-weight: 800; color: #fff; }
+      .outcome .oc-sub { margin-top: 8px; color: #c4ddcc; max-width: 62ch; }
+      .oc-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 22px; }
+      .oc-stat {
+        background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16);
+        border-radius: var(--radius-md); padding: 16px;
+      }
+      .oc-stat .big { font-family: "Sora", sans-serif; font-size: 1.55rem; font-weight: 800; color: #fff; line-height: 1.1; }
+      .oc-stat .small { font-size: 0.85rem; color: #c4ddcc; margin-top: 5px; line-height: 1.45; }
+      .oc-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; align-items: center; }
+      .cta-btn {
+        display: inline-block; text-decoration: none;
+        background: #fff; color: var(--accent-dark);
+        font-family: "Sora", sans-serif; font-weight: 700; font-size: 1.02rem;
+        padding: 15px 28px; border-radius: 999px;
+        transition: transform 0.15s ease, background 0.15s ease;
+      }
+      .cta-btn:hover { transform: translateY(-1px); background: var(--accent-soft); }
+      .cta-btn:focus-visible { outline: 3px solid var(--accent-mid); outline-offset: 3px; }
+      .replay-btn {
+        appearance: none; cursor: pointer;
+        background: transparent; color: #eaf5ee;
+        border: 1.5px solid rgba(255,255,255,0.45);
+        font-family: "Sora", sans-serif; font-weight: 700; font-size: 1rem;
+        padding: 14px 26px; border-radius: 999px;
+        transition: border-color 0.15s ease, background 0.15s ease;
+      }
+      .replay-btn:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+      .replay-btn:focus-visible { outline: 3px solid var(--accent-mid); outline-offset: 3px; }
+      .oc-fineprint { margin-top: 16px; font-size: 0.8rem; color: #9dbfab; }
+
+      /* ---------- Footer ---------- */
+      footer {
+        margin-top: 44px; border-top: 1px solid var(--line);
+        padding: 26px 0 40px;
+      }
+      .foot-inner { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+      .foot-credit { font-size: 0.95rem; color: var(--ink-soft); }
+      .foot-credit strong { color: var(--ink); font-family: "Sora", sans-serif; }
+      .foot-link {
+        font-weight: 800; text-decoration: none; color: var(--accent-dark);
+        border: 1.5px solid var(--accent); border-radius: 999px; padding: 10px 20px;
+        background: var(--surface); transition: background 0.15s ease;
+      }
+      .foot-link:hover { background: var(--accent-soft); }
+      .foot-note { width: 100%; font-size: 0.82rem; color: var(--ink-faint); }
+
+      @media (max-width: 900px) {
+        .board { grid-template-columns: 1fr 1fr; }
+        .stage { min-height: 0; }
+        .duo { grid-template-columns: 1fr; }
+        .log { height: 320px; }
+      }
+      @media (max-width: 560px) {
+        header { padding-top: 26px; }
+        .sources { grid-template-columns: 1fr; }
+        .board { grid-template-columns: 1fr; }
+        .oc-stats { grid-template-columns: 1fr; }
+        .controls { padding: 18px; }
+        .outcome { padding: 22px 18px; }
+        .run-btn { width: 100%; }
+        .phone-screen { height: 380px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        html { scroll-behavior: auto; }
+      }
+    </style>
+  <meta property="og:title" content="GoHighLevel Pipeline Automation - Interactive Demo" />
+<meta property="og:description" content="Interactive demo: watch a lead move itself through a sales pipeline - instant follow-up, qualification, and a booked appointment. Scripted simulation by Bilal Ali, AI Automation Expert." />
+<meta property="og:url" content="https://gohighlevel-pipeline-automation-mr-bilal-alis-projects.vercel.app" />
+<meta property="og:image" content="https://gohighlevel-pipeline-automation-mr-bilal-alis-projects.vercel.app/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="627" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="GoHighLevel Pipeline Automation - Interactive Demo" />
+<meta name="twitter:description" content="Interactive demo: watch a lead move itself through a sales pipeline - instant follow-up, qualification, and a booked appointment." />
+<meta name="twitter:image" content="https://gohighlevel-pipeline-automation-mr-bilal-alis-projects.vercel.app/og-image.png" />
+</head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="sim-banner" role="note">
+          <span class="dot" aria-hidden="true"></span>
+          <p><strong>Scripted simulation.</strong> This is an interactive demo with fictional data only. No real leads, calls, text messages, bookings, or CRM records are involved — press run and watch how the automation would behave.</p>
+        </div>
+        <p class="eyebrow">Interactive demo · GoHighLevel pipeline automation</p>
+        <h1>Every lead followed up in seconds. <span class="hl">No lead left sitting.</span></h1>
+        <p class="lede">Most leads go cold because nobody replies fast enough. This demo shows the fix: the moment a lead arrives, an automated GoHighLevel pipeline texts them back, qualifies them with AI questions, books the appointment, and keeps the card moving — with no manual chasing.</p>
+        <div class="proof-points" aria-label="What this demo shows">
+          <span>First reply in seconds, not hours</span>
+          <span>AI qualification, hands-free</span>
+          <span>Appointment booked automatically</span>
+          <span>Owner gets a task, not a mess</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="controls" aria-label="Demo controls">
+          <p class="step-label">Step 1 — Pick how the demo lead arrives</p>
+          <div class="sources" role="group" aria-label="Lead source">
+            <button type="button" class="source-btn selected" data-source="website" aria-pressed="true">
+              <span class="src-icon" aria-hidden="true">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              </span>
+              <span class="src-name">Website form</span>
+              <span class="src-desc">A visitor fills in the contact form on the business website.</span>
+            </button>
+            <button type="button" class="source-btn" data-source="missedcall" aria-pressed="false">
+              <span class="src-icon" aria-hidden="true">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/><path d="M23 6l-4-4M19 6l4-4" stroke-width="2"/></svg>
+              </span>
+              <span class="src-name">Missed call</span>
+              <span class="src-desc">The phone rings out after hours — the classic lost lead.</span>
+            </button>
+            <button type="button" class="source-btn" data-source="facebook" aria-pressed="false">
+              <span class="src-icon" aria-hidden="true">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </span>
+              <span class="src-name">Facebook ad lead</span>
+              <span class="src-desc">Someone taps a Facebook ad and submits the instant lead form.</span>
+            </button>
+          </div>
+
+          <div class="run-row">
+            <p class="step-label" style="margin: 0;">Step 2</p>
+            <button type="button" class="run-btn" id="runBtn">Run the pipeline</button>
+            <div class="timer-box" aria-label="Simulation timer">
+              <span class="t-label">Elapsed</span>
+              <span class="t-value" id="timer">0:00</span>
+            </div>
+            <p class="run-status" id="runStatus"><span class="live-dot" aria-hidden="true"></span>Ready — pick a source and run it.</p>
+          </div>
+        </section>
+
+        <section class="board-section" aria-label="Sales pipeline">
+          <div class="board-head">
+            <h2>The pipeline</h2>
+            <p>Watch the lead card move itself, stage by stage.</p>
+          </div>
+          <div class="board" id="board">
+            <div class="stage" data-stage="0">
+              <div class="stage-head"><span class="stage-num">1</span><span class="stage-name">New Lead</span></div>
+              <p class="stage-sub">Captured and created in the CRM instantly</p>
+              <div class="stage-slot"><div class="stage-empty">Waiting for a lead</div></div>
+            </div>
+            <div class="stage" data-stage="1">
+              <div class="stage-head"><span class="stage-num">2</span><span class="stage-name">Contacted</span></div>
+              <p class="stage-sub">Instant SMS goes out within seconds</p>
+              <div class="stage-slot"><div class="stage-empty">No lead here yet</div></div>
+            </div>
+            <div class="stage" data-stage="2">
+              <div class="stage-head"><span class="stage-num">3</span><span class="stage-name">Qualified</span></div>
+              <p class="stage-sub">AI asks the qualifying questions</p>
+              <div class="stage-slot"><div class="stage-empty">No lead here yet</div></div>
+            </div>
+            <div class="stage" data-stage="3">
+              <div class="stage-head"><span class="stage-num">4</span><span class="stage-name">Appointment Booked</span></div>
+              <p class="stage-sub">Calendar invite sent automatically</p>
+              <div class="stage-slot"><div class="stage-empty">No lead here yet</div></div>
+            </div>
+            <div class="stage" data-stage="4">
+              <div class="stage-head"><span class="stage-num">5</span><span class="stage-name">Won / Follow-up</span></div>
+              <p class="stage-sub">Owner task created, review request scheduled</p>
+              <div class="stage-slot"><div class="stage-empty">No lead here yet</div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="duo" aria-label="Automation log and message preview">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Live automation log</h3>
+              <span class="tag green">Simulated</span>
+            </div>
+            <div class="log" id="log" aria-live="polite">
+              <p class="log-idle">Nothing yet. When you run the pipeline, every automated action appears here with its timestamp — the SMS, the AI questions, the booking, the follow-ups.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head">
+              <h3>What the lead sees</h3>
+              <span class="tag">Preview only</span>
+            </div>
+            <div class="phone-wrap">
+              <div class="phone" aria-label="Simulated phone message preview">
+                <div class="phone-screen">
+                  <div class="phone-head">
+                    <div class="ph-name" id="phoneName">Demo Lead</div>
+                    <div class="ph-sub" id="phoneNumber">+1 (555) 014-2026 · fictional number</div>
+                  </div>
+                  <div class="phone-msgs" id="phoneMsgs">
+                    <p class="phone-idle">Simulated message preview.<br />The conversation the lead would receive appears here during the run. Nothing is actually sent.</p>
+                  </div>
+                  <div class="phone-note">Simulated preview — no real messages are sent</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="outcome" id="outcome" aria-label="Simulation outcome">
+          <span class="oc-label">Simulated outcome — illustration only</span>
+          <h2 id="ocTitle">Appointment booked. Zero manual chasing.</h2>
+          <p class="oc-sub" id="ocSub">The demo lead went from first touch to a confirmed appointment without a single manual call, text, or reminder from the business owner.</p>
+          <div class="oc-stats">
+            <div class="oc-stat">
+              <div class="big" id="ocTime">0:38</div>
+              <div class="small">Total time from lead arriving to appointment booked in this simulation. In a live setup this runs in real time, around the clock.</div>
+            </div>
+            <div class="oc-stat">
+              <div class="big">~45 min</div>
+              <div class="small">Estimated manual follow-up effort avoided per lead — the calls, texts, and CRM updates a person would otherwise do by hand. Illustrative estimate.</div>
+            </div>
+            <div class="oc-stat">
+              <div class="big">6 sec</div>
+              <div class="small">First response time in the simulation, versus a manual reply that often takes hours — by which time many leads have already called a competitor.</div>
+            </div>
+          </div>
+          <div class="oc-actions">
+            <a class="cta-btn" href="https://cal.com/mrbilalali/discovery-call" target="_blank" rel="noopener">Book a discovery call</a>
+            <button type="button" class="replay-btn" id="replayBtn">Start over / replay</button>
+          </div>
+          <p class="oc-fineprint">All figures above are illustrative, drawn from this scripted simulation — not measured client results.</p>
+        </section>
+      </main>
+
+      <footer>
+        <div class="foot-inner">
+          <p class="foot-credit">Built by <strong>Bilal Ali</strong> — AI Automation Expert. Pipeline, follow-up, and booking automations for businesses that cannot afford to lose leads.</p>
+          <a class="foot-link" href="https://cal.com/mrbilalali/discovery-call" target="_blank" rel="noopener">Book a discovery call</a>
+          <p class="foot-note">Demo note: this page is a self-contained simulation. It does not connect to GoHighLevel or any live system, and no data you enter (there is none to enter) leaves your browser.</p>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        var SOURCES = {
+          website: {
+            leadName: "Alex Morgan",
+            initials: "AM",
+            phone: "+1 (555) 014-2026",
+            sourceTag: "Website form",
+            need: "Asked about a full service quote via the website contact form.",
+            captureTitle: "Lead captured — website form submitted",
+            captureDetail: "Form data pushed into GoHighLevel. Contact created and tagged “Website Lead”.",
+            firstSms: "Hi Alex, thanks for getting in touch through our website. I can help with your quote — quick question first: what do you need done, and when were you hoping to have it?",
+            sourceSys: "New website form lead"
+          },
+          missedcall: {
+            leadName: "Jordan Lee",
+            initials: "JL",
+            phone: "+1 (555) 014-2026",
+            sourceTag: "Missed call",
+            need: "Called after hours and reached nobody — the call would normally be lost.",
+            captureTitle: "Lead captured — missed call detected",
+            captureDetail: "Unanswered call logged in GoHighLevel. Contact auto-created from the caller number and tagged “Missed Call”.",
+            firstSms: "Hi Jordan, sorry we missed your call just now. No need to call back — reply here and we will get everything sorted. What were you calling about?",
+            sourceSys: "Missed call — auto text-back fired"
+          },
+          facebook: {
+            leadName: "Sam Carter",
+            initials: "SC",
+            phone: "+1 (555) 014-2026",
+            sourceTag: "Facebook ad",
+            need: "Tapped a Facebook ad and submitted the instant lead form.",
+            captureTitle: "Lead captured — Facebook lead form submitted",
+            captureDetail: "Facebook lead synced into GoHighLevel. Contact created and tagged “Facebook Ad Lead”.",
+            firstSms: "Hi Sam, thanks for your interest from our Facebook post. Happy to help — quick question first: what do you need done, and when were you hoping to have it?",
+            sourceSys: "New Facebook ad lead"
+          }
+        };
+
+        var els = {
+          runBtn: document.getElementById("runBtn"),
+          replayBtn: document.getElementById("replayBtn"),
+          timer: document.getElementById("timer"),
+          status: document.getElementById("runStatus"),
+          log: document.getElementById("log"),
+          phoneMsgs: document.getElementById("phoneMsgs"),
+          phoneName: document.getElementById("phoneName"),
+          phoneNumber: document.getElementById("phoneNumber"),
+          outcome: document.getElementById("outcome"),
+          ocTime: document.getElementById("ocTime"),
+          ocSub: document.getElementById("ocSub"),
+          stages: Array.prototype.slice.call(document.querySelectorAll(".stage")),
+          sourceBtns: Array.prototype.slice.call(document.querySelectorAll(".source-btn"))
+        };
+
+        var selectedSource = "website";
+        var running = false;
+        var timers = [];
+        var clockTimer = null;
+        var stampMs = 0;
+        var tickMs = 0;
+        var leadCard = null;
+
+        function fmt(ms) {
+          var s = Math.floor(ms / 1000);
+          var m = Math.floor(s / 60);
+          var r = s % 60;
+          return m + ":" + (r < 10 ? "0" : "") + r;
+        }
+
+        function setStatus(text, isRunning) {
+          els.status.innerHTML = "";
+          var dot = document.createElement("span");
+          dot.className = "live-dot";
+          dot.setAttribute("aria-hidden", "true");
+          els.status.appendChild(dot);
+          els.status.appendChild(document.createTextNode(text));
+          els.status.classList.toggle("running", !!isRunning);
+        }
+
+        function selectSource(key) {
+          if (running) return;
+          selectedSource = key;
+          els.sourceBtns.forEach(function (b) {
+            var on = b.getAttribute("data-source") === key;
+            b.classList.toggle("selected", on);
+            b.setAttribute("aria-pressed", on ? "true" : "false");
+          });
+        }
+        els.sourceBtns.forEach(function (b) {
+          b.addEventListener("click", function () { selectSource(b.getAttribute("data-source")); });
+        });
+
+        function buildLeadCard(src) {
+          var card = document.createElement("div");
+          card.className = "lead-card";
+          card.innerHTML =
+            '<div class="lead-top">' +
+              '<span class="avatar" aria-hidden="true">' + src.initials + "</span>" +
+              "<div>" +
+                '<div class="lead-name">' + src.leadName + ' <span style="font-weight:600;color:var(--ink-faint);font-size:0.78rem;">(fictional demo lead)</span></div>' +
+                '<div class="lead-meta">' + src.phone + "</div>" +
+              "</div>" +
+            "</div>" +
+            '<div class="lead-tags"><span>' + src.sourceTag + '</span><span class="grey">Demo data</span></div>' +
+            '<p class="lead-need"><strong>Situation:</strong> ' + src.need + "</p>" +
+            '<div class="lead-appt">Appointment: Tomorrow, 10:30 AM<br /><span style="font-weight:600;">Calendar invite sent (simulated)</span></div>';
+          return card;
+        }
+
+        function moveCardTo(stageIdx) {
+          els.stages.forEach(function (st, i) {
+            st.classList.toggle("active", i === stageIdx);
+            if (i < stageIdx) st.classList.add("done");
+          });
+          var slot = els.stages[stageIdx].querySelector(".stage-slot");
+          slot.appendChild(leadCard);
+          leadCard.classList.remove("arrive");
+          void leadCard.offsetWidth;
+          leadCard.classList.add("arrive");
+          if (window.innerWidth < 900) {
+            els.stages[stageIdx].scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }
+
+        function addLog(title, detail, isStage) {
+          var idle = els.log.querySelector(".log-idle");
+          if (idle) idle.remove();
+          var entry = document.createElement("div");
+          entry.className = "log-entry" + (isStage ? " stage-entry" : "");
+          entry.innerHTML =
+            '<span class="log-time">+' + fmt(stampMs) + "</span>" +
+            '<div class="log-body"><strong></strong><span></span></div>';
+          entry.querySelector("strong").textContent = title;
+          entry.querySelector("span:not(.log-time)") && (entry.querySelector(".log-body span").textContent = detail || "");
+          els.log.appendChild(entry);
+          els.log.scrollTop = els.log.scrollHeight;
+        }
+
+        function addBubble(kind, who, text) {
+          var idle = els.phoneMsgs.querySelector(".phone-idle");
+          if (idle) idle.remove();
+          var b = document.createElement("div");
+          if (kind === "sys") {
+            b.className = "bubble sys";
+            b.textContent = text;
+          } else {
+            b.className = "bubble " + kind;
+            var w = document.createElement("span");
+            w.className = "b-who";
+            w.textContent = who;
+            b.appendChild(w);
+            b.appendChild(document.createTextNode(text));
+          }
+          els.phoneMsgs.appendChild(b);
+          els.phoneMsgs.scrollTop = els.phoneMsgs.scrollHeight;
+        }
+
+        function at(ms, fn) {
+          timers.push(setTimeout(function () { stampMs = ms; fn(); }, ms));
+        }
+
+        function startClock() {
+          tickMs = 0;
+          els.timer.textContent = "0:00";
+          clockTimer = setInterval(function () {
+            tickMs += 200;
+            els.timer.textContent = fmt(tickMs);
+          }, 200);
+        }
+        function stopClock(finalMs) {
+          if (clockTimer) clearInterval(clockTimer);
+          clockTimer = null;
+          if (typeof finalMs === "number") els.timer.textContent = fmt(finalMs);
+        }
+
+        function finish(totalMs) {
+          running = false;
+          stopClock(totalMs);
+          els.stages.forEach(function (st) { st.classList.remove("active"); st.classList.add("done"); });
+          setStatus("Simulation complete in " + fmt(totalMs) + ". Scroll down for the outcome.", false);
+          els.ocTime.textContent = fmt(totalMs);
+          els.outcome.classList.add("show");
+          els.outcome.scrollIntoView({ behavior: "smooth", block: "center" });
+          els.runBtn.disabled = false;
+          els.runBtn.textContent = "Run it again";
+        }
+
+        function run() {
+          if (running) return;
+          reset(false);
+          running = true;
+          var src = SOURCES[selectedSource];
+          els.runBtn.disabled = true;
+          els.runBtn.textContent = "Pipeline running…";
+          els.outcome.classList.remove("show");
+          setStatus("Pipeline running — watch the card move.", true);
+
+          els.phoneName.textContent = src.leadName + " (demo)";
+          els.phoneNumber.textContent = src.phone + " · fictional number";
+
+          startClock();
+
+          leadCard = buildLeadCard(src);
+
+          /* Stage 1 — New Lead */
+          at(400, function () {
+            moveCardTo(0);
+            addLog("Stage 1 · New Lead", "", true);
+            addLog(src.captureTitle, src.captureDetail);
+            addBubble("sys", "", src.sourceSys);
+            setStatus("Lead captured. Instant follow-up firing…", true);
+          });
+          at(2200, function () {
+            addLog("Pipeline card created", "Opportunity added to the “New Lead” stage. No human touched anything yet.");
+          });
+
+          /* Stage 2 — Contacted */
+          at(4500, function () {
+            moveCardTo(1);
+            addLog("Stage 2 · Contacted", "", true);
+            addLog("Instant SMS sent", "First text fired automatically — about 6 seconds after the lead arrived, not hours later.");
+            addBubble("out", "Business · automated", src.firstSms);
+            setStatus("Lead contacted by SMS. Waiting for a reply…", true);
+          });
+          at(9000, function () {
+            addBubble("in", src.leadName.split(" ")[0], "Hi! I need a quote for a full job at my place. Sometime this week if possible.");
+            addLog("Lead replied", "Reply received and attached to the contact record. The automation keeps going on its own.");
+          });
+
+          /* Stage 3 — Qualified */
+          at(12500, function () {
+            moveCardTo(2);
+            addLog("Stage 3 · Qualified", "", true);
+            addLog("AI qualification started", "The AI assistant asks the standard qualifying questions — no staff time used.");
+            addBubble("out", "AI assistant", "Great, we can help this week. Two quick questions: is the property a house or an apartment, and what is your rough budget range?");
+            setStatus("AI is qualifying the lead…", true);
+          });
+          at(17500, function () {
+            addBubble("in", src.leadName.split(" ")[0], "It is a 3-bed house. Budget is around the mid range — just want it done properly.");
+            addLog("Answers captured", "Property type and budget saved to the contact. Notes written to the CRM automatically.");
+          });
+          at(21500, function () {
+            addLog("Lead marked Qualified", "Answers match the service criteria, so the card moves on and booking opens up.");
+            addBubble("out", "AI assistant", "Perfect, you qualify for a free on-site assessment. I have tomorrow at 10:30 AM or 2:00 PM — which suits you?");
+          });
+          at(25000, function () {
+            addBubble("in", src.leadName.split(" ")[0], "10:30 AM tomorrow works for me.");
+            addLog("Slot chosen", "The lead picked a time inside the chat. No phone tag, no back-and-forth emails.");
+          });
+
+          /* Stage 4 — Appointment Booked */
+          at(28000, function () {
+            moveCardTo(3);
+            leadCard.classList.add("booked");
+            addLog("Stage 4 · Appointment Booked", "", true);
+            addLog("Appointment booked", "Calendar event created for tomorrow, 10:30 AM (demo slot). Invite and confirmation sent automatically.");
+            addBubble("sys", "", "Appointment confirmed · Tomorrow 10:30 AM");
+            addBubble("out", "Business · automated", "Booked: your assessment is confirmed for tomorrow at 10:30 AM. You will get a reminder the day before and one an hour ahead. Reply here if anything changes.");
+            setStatus("Appointment booked. Wrapping up the follow-up…", true);
+          });
+          at(32000, function () {
+            addLog("Reminders scheduled", "Two automatic reminders queued — the day before and one hour before — so the appointment actually happens.");
+          });
+
+          /* Stage 5 — Won / Follow-up */
+          at(35000, function () {
+            moveCardTo(4);
+            addLog("Stage 5 · Won / Follow-up", "", true);
+            addLog("Task created for the owner", "“Prepare quote pack for tomorrow’s assessment” — assigned with the lead’s answers already attached.");
+            addLog("Review request scheduled", "After the appointment, a review request goes out automatically, plus a gentle follow-up sequence if the lead goes quiet.");
+            addBubble("sys", "", "Owner notified · task created in CRM");
+            setStatus("Follow-up locked in. Finishing…", true);
+          });
+
+          at(38500, function () {
+            addLog("Pipeline complete", "From first touch to booked appointment and follow-up — zero manual chasing by the owner.");
+            finish(38500);
+          });
+        }
+
+        function reset(scrollTop) {
+          timers.forEach(clearTimeout);
+          timers = [];
+          stopClock();
+          running = false;
+          els.timer.textContent = "0:00";
+          els.log.innerHTML = '<p class="log-idle">Nothing yet. When you run the pipeline, every automated action appears here with its timestamp — the SMS, the AI questions, the booking, the follow-ups.</p>';
+          els.phoneMsgs.innerHTML = '<p class="phone-idle">Simulated message preview.<br />The conversation the lead would receive appears here during the run. Nothing is actually sent.</p>';
+          els.phoneName.textContent = "Demo Lead";
+          els.phoneNumber.textContent = "+1 (555) 014-2026 · fictional number";
+          els.stages.forEach(function (st) {
+            st.classList.remove("active", "done");
+            var slot = st.querySelector(".stage-slot");
+            if (!slot.querySelector(".stage-empty")) {
+              var empty = document.createElement("div");
+              empty.className = "stage-empty";
+              empty.textContent = st.getAttribute("data-stage") === "0" ? "Waiting for a lead" : "No lead here yet";
+              slot.appendChild(empty);
+            }
+          });
+          leadCard = null;
+          els.outcome.classList.remove("show");
+          els.runBtn.disabled = false;
+          els.runBtn.textContent = "Run the pipeline";
+          setStatus("Ready — pick a source and run it.", false);
+          if (scrollTop) {
+            document.querySelector(".controls").scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }
+
+        els.runBtn.addEventListener("click", run);
+        els.replayBtn.addEventListener("click", function () { reset(true); });
+      })();
+    </script>
+  </body>
+</html>
